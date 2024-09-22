@@ -35,6 +35,37 @@ function ready_calculator() {
 
 console.log(ready_calculator())
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     ready_calculator();
-// })
+document.addEventListener('DOMContentLoaded', () => {
+    ready_calculator()
+    createButtonGrids();
+})
+
+
+
+function createButtonGrids() {
+const buttonGrid = document.querySelector("#button-grid");
+const n_buttons = 20;
+const gapSize = 1; //  A gap of 1% is present between each div elem
+
+const buttonWidth = ((1 / 4) * 100  - gapSize / (4/3)) // only 3 gaps will exist between 0 and 3
+const buttonHeight = ((1 / 5) * 100 - gapSize / (4/3))
+
+
+const buttonArr = ["C", "+/-", "%", "/", "7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".", "="];
+
+for (let i = 0; i < n_buttons - 1; i++) {
+    const buttonElem = document.createElement("div");
+    buttonElem.classList.add("button-elem");
+    buttonElem.setAttribute('id', `button-${i}`);
+    buttonElem.style.height = buttonHeight + "%";
+    buttonElem.textContent = buttonArr[i];
+
+    if (i === 16) {
+        buttonElem.style.width = (2 * buttonWidth) + 1 + "%" ; // to make it proportional to 100%
+    } else buttonElem.style.width = buttonWidth + "%";
+    
+    
+    buttonGrid.appendChild(buttonElem);
+};
+
+};
