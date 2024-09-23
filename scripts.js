@@ -44,7 +44,7 @@ function ready_calculator() {
 document.addEventListener('DOMContentLoaded', () => {
     ready_calculator()
     createButtonGrids();
-})
+});
 
 
 
@@ -96,7 +96,7 @@ for (let i = 0; i < n_buttons - 1; i++) {
 function update_upper_display(val) {
     const display_text = document.querySelector("#upper-text");
     display_text.textContent = val;
-}
+};
 
 
 // if an operator is not called, then the input number is assumed to be n1 and n2 for the case after.
@@ -104,6 +104,7 @@ function update_upper_display(val) {
 
 let n1 = "";
 let n2 = "";
+let temp = ""
 let operator;
 let lastCommand = "";
 let result = "";
@@ -113,7 +114,7 @@ let result = "";
 function update_main_display(input) {
     const display_text = document.querySelector("#display-text")
     display_text.textContent = input;
-}
+};
 
 function restart() {
     n1 = "";
@@ -123,14 +124,16 @@ function restart() {
     lastCommand = "";
     update_main_display("0");
     update_upper_display("")
-}
+};
 
 function evaluate() {
-    result = (operate(operator, parseFloat(n1), parseFloat(n2))).toFixed(5);
+    result = +(operate(operator, parseFloat(n1), parseFloat(n2))).toFixed(5);
     n1 = result;
     update_main_display(result);
     update_upper_display(result);
-}
+    temp = n2;
+    n2 = "";
+};
 
 function handle_buttons(input) {
     // This function should solely handle the logic surrounding button inputs; 
@@ -163,7 +166,11 @@ function handle_buttons(input) {
     } 
 
     else if (input === "=") {
-        evaluate();
+        if (lastCommand === "=") {
+            n2 = temp;
+            evaluate()
+        } else evaluate();
+
     }
     else if (n1 === "" || typeof operator === "undefined") {
         n1 += input;
@@ -173,5 +180,6 @@ function handle_buttons(input) {
         n2 += input;
         update_main_display(n2);
     }
+    lastCommand = input;
     console.log(`n1: ${n1}, n2: ${n2}, operator: ${operator}.`)
 };
