@@ -126,7 +126,7 @@ function restart() {
 }
 
 function evaluate() {
-    result = operate(operator, parseInt(n1), parseInt(n2));
+    result = (operate(operator, parseFloat(n1), parseFloat(n2))).toFixed(5);
     n1 = result;
     update_main_display(result);
     update_upper_display(result);
@@ -142,6 +142,7 @@ function handle_buttons(input) {
     }
 
     else if (input === "+/-") {
+        // ISSUE: the '+/-' does not work for "=" chaining
         if (n1 !== "" && n2 == "") {
             n1 *= -1;
             update_main_display(n1);
