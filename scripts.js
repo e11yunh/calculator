@@ -1,3 +1,5 @@
+const maxNum = Number.MAX_SAFE_INTEGER;
+
 function add(n1, n2) {
     return n1 + n2;
 };
@@ -18,16 +20,12 @@ function operate(operator, n1, n2) {
     switch(operator){
         case '/':
             return divide(n1, n2);
-            break;
         case '*':
             return multiply(n1, n2);
-            break;
         case '+':
             return add(n1, n2);
-            break;
         case '-':
             return subtract(n1, n2);
-            break;
     }
 };
 
@@ -94,11 +92,6 @@ for (let i = 0; i < n_buttons - 1; i++) {
 };
 
 
-// if button is '=', only then shall the operate function be called
-
-// return operate(operator, n1, n2);
-
-
 // update_display should be called whenever a button is input; so always be called
 function update_upper_display(val) {
     const display_text = document.querySelector("#upper-text");
@@ -112,10 +105,10 @@ function update_upper_display(val) {
 let n1 = "";
 let n2 = "";
 let operator;
+let lastCommand = "";
+let result = "";
 
-function isButtonsPopulated() {
-    return (typeof n1)
-}
+
 
 function update_main_display(input) {
     const display_text = document.querySelector("#display-text")
@@ -123,12 +116,20 @@ function update_main_display(input) {
 }
 
 function restart() {
-    // let n1 = "";
-    // let n2 = "";
-    // let operator;
-    // update_main_display("0");
-    // update_upper_display("")
-    location.reload();
+    n1 = "";
+    n2 = "";
+    operator = undefined;
+    result = ""
+    lastCommand = "";
+    update_main_display("0");
+    update_upper_display("")
+}
+
+function evaluate() {
+    result = operate(operator, parseInt(n1), parseInt(n2));
+    n1 = result;
+    update_main_display(result);
+    update_upper_display(result);
 }
 
 function handle_buttons(input) {
@@ -136,32 +137,32 @@ function handle_buttons(input) {
     // whether the button should be a n1, operator, or n2
     const operatorArr = ["/", "*", "-", "+"];
 
-    update_upper_display(input);
     if (input === "C") {
         restart();
     }
 
     else if (input === "+/-") {
-        if (typeof operator === "undefined") {
+        if (n1 !== "" && n2 == "") {
             n1 *= -1;
             update_main_display(n1);
         }
-        else if (typeof operator !== "undefined") {
+        else if (n2 !== "") {
             n2 *= -1;
             update_main_display(n2);
-        };
+        }
     }
 
     else if (operatorArr.includes(input)) {
+        if (n2 !== "" && typeof operator !== "undefined") {
+            evaluate()
+        }
         operator = input;
         n2 = "";
         update_main_display(input);
     } 
 
     else if (input === "=") {
-        let final_val = operate(operator, parseInt(n1), parseInt(n2));
-        n1 = final_val;
-        update_main_display(final_val);
+        evaluate();
     }
     else if (n1 === "" || typeof operator === "undefined") {
         n1 += input;
