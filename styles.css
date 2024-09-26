@@ -74,6 +74,13 @@
     font-size: 32px;
 }
 
+#display-text {
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    color: #f3f3f3;
+}
+
 #button-grid {
     flex-shrink: 1;
     width: 90%;

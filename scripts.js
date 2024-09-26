@@ -127,12 +127,21 @@ function restart() {
 };
 
 function evaluate() {
-    result = +(operate(operator, parseFloat(n1), parseFloat(n2))).toFixed(5);
-    n1 = result;
-    update_main_display(result);
-    update_upper_display(result);
-    temp = n2;
-    n2 = "";
+    result = +(operate(operator, parseFloat(n1), parseFloat(n2))).toFixed(5); // limit the number of decimals
+    if (result === Infinity) { // Special message for division by zero error
+        result = "Undefined Event"
+        update_main_display(result)
+        update_upper_display("Math Error")
+        n1 = "";
+        n2 = "";
+        operator = undefined;
+    } else {
+        n1 = result;
+        update_main_display(result);
+        update_upper_display(result);
+        temp = n2;
+        n2 = "";
+    }
 };
 
 function handle_buttons(input) {
@@ -145,7 +154,6 @@ function handle_buttons(input) {
     }
 
     else if (input === "+/-") {
-        // ISSUE: the '+/-' does not work for "=" chaining
         if (n1 !== "" && n2 == "") {
             n1 *= -1;
             update_main_display(n1);
@@ -172,14 +180,39 @@ function handle_buttons(input) {
         } else evaluate();
 
     }
+
+    // Handling n1
     else if (n1 === "" || typeof operator === "undefined") {
+        if (input === ".") {
+            if (n1.includes(".")) {
+                input = ""
+            }; 
+        };
         n1 += input;
         update_main_display(n1);
     }
+
+    // Handling n2
     else if (n2 === "" || typeof operator !== "undefined") {
+        if (input === ".") {
+            if (n2.includes(".")) {
+                input = ""
+            }; 
+        };
         n2 += input;
         update_main_display(n2);
     }
     lastCommand = input;
     console.log(`n1: ${n1}, n2: ${n2}, operator: ${operator}.`)
 };
+
+// Merge the two display together to create a bigger display
+    // Add a CSS indicator that an operator is currently being selected 
+    // Add an icon on the top left to show that an operator is being selected 
+    // The upper display should be integrated to the top right in the following style:  A / B = C (LAST COMMAND )
+
+    
+// Limit the max number able to be displayed or computed
+// Implement '.' decimal functionality 
+// Add default behaviour for when incomplete sequence is done
+// Add keyboard support
