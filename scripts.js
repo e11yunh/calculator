@@ -137,12 +137,21 @@ function evaluate() {
         operator = undefined;
     } else {
         if (result.toString().length > maxChar) {
-            const display = document.querySelector("#display")
-            display.style.fontSize = '1.425rem'
+            const mainDisplay = document.querySelector("#display")
+            mainDisplay.style.fontSize = '1.425rem'
+            
+            const upperDisplay = document.querySelector("#header-display")
+            upperDisplay.style.fontSize = '0.7rem'
+        } else {
+            const mainDisplay = document.querySelector("#display")
+            mainDisplay.style.fontSize = '2rem'
+            
+            const upperDisplay = document.querySelector("#header-display")
+            upperDisplay.style.fontSize = '1rem'
         }
+        update_upper_display(`${n1} ${operator} ${n2}`);
         n1 = result;
         update_main_display(result);
-        update_upper_display(result);
         temp = n2;
         n2 = "";
     }
