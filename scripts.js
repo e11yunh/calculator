@@ -114,6 +114,11 @@ let result = "";
 function update_main_display(input) {
     const display_text = document.querySelector("#display-text")
     display_text.textContent = input;
+    if (input === "∞ and beyond") {
+        display_text.classList.add("gradient-text")
+    } else {
+        display_text.classList.remove("gradient-text")
+    }
 };
 
 function reset_font_size() {
@@ -132,7 +137,8 @@ function restart() {
     lastCommand = "";
     update_main_display("0");
     update_upper_display("")
-    reset_font_size()
+    reset_font_size();
+    toggleIcons("");
 };
 
 function evaluate() {
@@ -165,13 +171,13 @@ function evaluate() {
 function toggleIcons(operation) {
     const operator_container = document.querySelector("#operator-container")
     for (let child of operator_container.children) {
-        console.log(`Iterating over: ${child}`)
         if (child.getAttribute("value") === operation) {
             console.log(child.value)
             child.style.visibility = "visible"
             child.classList.add("blink")
         } else {
             child.style.visibility = "hidden"
+            child.classList.remove("blink")
         }
     }
 }
@@ -245,10 +251,6 @@ function handle_buttons(input) {
     console.log(`n1: ${n1}, n2: ${n2}, operator: ${operator}.`)
 };
 
-// Merge the two display together to create a bigger display
-    // Add a CSS indicator that an operator is currently being selected 
-    // Add an icon on the top left to show that an operator is being selected 
-    // The upper display should be integrated to the top right in the following style:  A / B = C (LAST COMMAND )
 
 // Change the '%' function to a backspace function    
 // Add default behaviour for when incomplete sequence is done
