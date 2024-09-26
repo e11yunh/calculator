@@ -116,6 +116,14 @@ function update_main_display(input) {
     display_text.textContent = input;
 };
 
+function reset_font_size() {
+    const mainDisplay = document.querySelector("#display-text")
+    mainDisplay.style.fontSize = '2rem'
+    
+    const upperDisplay = document.querySelector("#upper-text")
+    upperDisplay.style.fontSize = '1rem'
+}
+
 function restart() {
     n1 = "";
     n2 = "";
@@ -124,6 +132,7 @@ function restart() {
     lastCommand = "";
     update_main_display("0");
     update_upper_display("")
+    reset_font_size()
 };
 
 function evaluate() {
@@ -137,17 +146,13 @@ function evaluate() {
         operator = undefined;
     } else {
         if (result.toString().length > maxChar) {
-            const mainDisplay = document.querySelector("#display")
-            mainDisplay.style.fontSize = '1.425rem'
+            const mainDisplay = document.querySelector("#display-text")
+            mainDisplay.style.fontSize = '1.45rem'
             
-            const upperDisplay = document.querySelector("#header-display")
-            upperDisplay.style.fontSize = '0.7rem'
+            const upperDisplay = document.querySelector("#upper-text")
+            upperDisplay.style.fontSize = '0.85rem'
         } else {
-            const mainDisplay = document.querySelector("#display")
-            mainDisplay.style.fontSize = '2rem'
-            
-            const upperDisplay = document.querySelector("#header-display")
-            upperDisplay.style.fontSize = '1rem'
+            reset_font_size()
         }
         update_upper_display(`${n1} ${operator} ${n2}`);
         n1 = result;
@@ -156,6 +161,20 @@ function evaluate() {
         n2 = "";
     }
 };
+
+function toggleIcons(operation) {
+    const operator_container = document.querySelector("#operator-container")
+    for (let child of operator_container.children) {
+        console.log(`Iterating over: ${child}`)
+        if (child.getAttribute("value") === operation) {
+            console.log(child.value)
+            child.style.visibility = "visible"
+            child.classList.add("blink")
+        } else {
+            child.style.visibility = "hidden"
+        }
+    }
+}
 
 function handle_buttons(input) {
     // This function should solely handle the logic surrounding button inputs; 
@@ -178,11 +197,12 @@ function handle_buttons(input) {
     }
 
     else if (operatorArr.includes(input)) {
-        if (n2 !== "" && typeof operator !== "undefined") {
+        if (n2 !== "" && typeof operator !== "undefined") { // handling "=" chaining
             evaluate()
         }
         operator = input;
         n2 = "";
+        toggleIcons(input)
         update_main_display(input);
     } 
 
@@ -230,7 +250,7 @@ function handle_buttons(input) {
     // Add an icon on the top left to show that an operator is being selected 
     // The upper display should be integrated to the top right in the following style:  A / B = C (LAST COMMAND )
 
-    
+// Change the '%' function to a backspace function    
 // Add default behaviour for when incomplete sequence is done
 // Add keyboard support
 // NaN handle cases: Incomplete input results in NaN which will cause all subsequent results to be NaN regardless
