@@ -52,6 +52,8 @@
     align-items: center;
     padding-right: 10px;
     font-family: "Silkscreen", "Teko", sans-serif;
+    overflow: hidden;
+    text-align: right;
 }
 
 #display {
@@ -71,14 +73,9 @@
     font-family: "Silkscreen", "Teko", sans-serif;
     font-weight: 400;
     margin-bottom: 20px;
-    font-size: 32px;
-}
-
-#display-text {
-    max-width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    color: #f3f3f3;
+    overflow: hidden;
+    text-align: right;
+    font-size: 2rem;
 }
 
 #button-grid {

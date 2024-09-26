@@ -1,4 +1,4 @@
-const maxNum = Number.MAX_SAFE_INTEGER;
+const maxChar = 15; // corresponds to display limit
 
 function add(n1, n2) {
     return n1 + n2;
@@ -129,13 +129,17 @@ function restart() {
 function evaluate() {
     result = +(operate(operator, parseFloat(n1), parseFloat(n2))).toFixed(5); // limit the number of decimals
     if (result === Infinity) { // Special message for division by zero error
-        result = "Undefined Event"
+        result = "∞ and beyond"
         update_main_display(result)
         update_upper_display("Math Error")
         n1 = "";
         n2 = "";
         operator = undefined;
     } else {
+        if (result.toString().length > maxChar) {
+            const display = document.querySelector("#display")
+            display.style.fontSize = '1.425rem'
+        }
         n1 = result;
         update_main_display(result);
         update_upper_display(result);
@@ -188,8 +192,11 @@ function handle_buttons(input) {
                 input = ""
             }; 
         };
-        n1 += input;
-        update_main_display(n1);
+        if (n1.length <= maxChar) {
+            n1 += input;
+            update_main_display(n1);
+
+        };
     }
 
     // Handling n2
@@ -199,8 +206,11 @@ function handle_buttons(input) {
                 input = ""
             }; 
         };
-        n2 += input;
-        update_main_display(n2);
+        if (n2.length <= maxChar) {
+            n2 += input;
+            update_main_display(n2);
+
+        };
     }
     lastCommand = input;
     console.log(`n1: ${n1}, n2: ${n2}, operator: ${operator}.`)
@@ -212,7 +222,6 @@ function handle_buttons(input) {
     // The upper display should be integrated to the top right in the following style:  A / B = C (LAST COMMAND )
 
     
-// Limit the max number able to be displayed or computed
-// Implement '.' decimal functionality 
 // Add default behaviour for when incomplete sequence is done
 // Add keyboard support
+// NaN handle cases: Incomplete input results in NaN which will cause all subsequent results to be NaN regardless
