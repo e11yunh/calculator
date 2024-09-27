@@ -56,8 +56,6 @@ for (let i = 0; i < n_buttons - 1; i++) {
     buttonElem.addEventListener("click", (event) => {
         console.log(`Value of Button Event: ${event.target.value} ${typeof event.target.value}`)
         handle_buttons(event.target.value);
-        // const display_text = document.querySelector("#display-text")
-        // display_text.textContent = `Displaying: ${event.target.value}`
     });
     buttonElem.addEventListener("mousedown", (event) => {
         buttonElem.classList.add("pressed");
@@ -235,6 +233,11 @@ function handle_buttons(input) {
                 n1 += input;
                 update_main_display(n1);
             }
+        } else { // Enable backspace function for when n1.length = 16
+            if (input === "⌫") {
+                n1 = backspace(n1)
+                update_main_display(n1)
+            };
         };
     }
 
@@ -252,14 +255,39 @@ function handle_buttons(input) {
             } else {
                 n2 += input;
                 update_main_display(n2);
-            }
+            };
+        } else { // Enable backspace function for when n1.length = 16
+            if (input === "⌫") {
+                n2 = backspace(n2)
+                update_main_display(n2)
+            };
         };
     }
     lastCommand = input;
     console.log(`n1: ${n1}, n2: ${n2}, operator: ${operator}.`)
 };
 
-  
+// Implementation of Keyboard support
+document.addEventListener("keydown", (event) => {
+    const key = event.key
+    const validKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', 'Enter', 'Backspace', 'Escape', '.'];
+
+    if (validKeys.includes(key)) {
+        console.log(`Value of Keydown Event: ${key} ${typeof key}`)
+        if (key === "Escape") {
+            handle_buttons("C");
+        }
+        else if (key === "Enter") {
+            handle_buttons("=");
+        }
+        else if (key === "Backspace") {
+            handle_buttons("⌫");
+        }
+        else {
+            handle_buttons(key)
+        }
+    };
+})
+
 // Add default behaviour for when incomplete sequence is done
-// Add keyboard support
-// NaN handle cases: Incomplete input results in NaN which will cause all subsequent results to be NaN regardless
+    // NaN handle cases: Incomplete input results in NaN which will cause all subsequent results to be NaN regardless
