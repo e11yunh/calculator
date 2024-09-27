@@ -256,7 +256,7 @@ function handle_buttons(input) {
                 n2 += input;
                 update_main_display(n2);
             };
-        } else { // Enable backspace function for when n1.length = 16
+        } else { // Enable backspace function for when n2.length = 16
             if (input === "⌫") {
                 n2 = backspace(n2)
                 update_main_display(n2)
