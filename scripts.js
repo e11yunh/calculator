@@ -44,7 +44,7 @@ const buttonWidth = ((1 / 4) * 100  - gapSize / (4/3)) // only 3 gaps will exist
 const buttonHeight = ((1 / 5) * 100 - gapSize / (4/3))
 
 
-const buttonArr = ["C", "+/-", "%", "/", "7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".", "="];
+const buttonArr = ["C", "+/-", "⌫", "/", "7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".", "="];
 
 for (let i = 0; i < n_buttons - 1; i++) {
     const buttonElem = document.createElement("button");
@@ -127,6 +127,10 @@ function restart() {
     reset_font_size();
     toggleIcons("");
 };
+
+function backspace(input) {
+    return output = input.substring(0, input.length - 1);
+}
 
 function evaluate() {
     result = +(operate(operator, parseFloat(n1), parseFloat(n2))).toFixed(5); // limit the number of decimals
@@ -224,9 +228,13 @@ function handle_buttons(input) {
             }; 
         };
         if (n1.length <= maxChar) {
-            n1 += input;
-            update_main_display(n1);
-
+            if (input === "⌫") {
+                n1 = backspace(n1)
+                update_main_display(n1)
+            } else {
+                n1 += input;
+                update_main_display(n1);
+            }
         };
     }
 
@@ -238,17 +246,20 @@ function handle_buttons(input) {
             }; 
         };
         if (n2.length <= maxChar) {
-            n2 += input;
-            update_main_display(n2);
-
+            if (input === "⌫") {
+                n2 = backspace(n2)
+                update_main_display(n2)
+            } else {
+                n2 += input;
+                update_main_display(n2);
+            }
         };
     }
     lastCommand = input;
     console.log(`n1: ${n1}, n2: ${n2}, operator: ${operator}.`)
 };
 
-
-// Change the '%' function to a backspace function    
+  
 // Add default behaviour for when incomplete sequence is done
 // Add keyboard support
 // NaN handle cases: Incomplete input results in NaN which will cause all subsequent results to be NaN regardless
