@@ -116,6 +116,10 @@
     }
 }
 
+.flash {
+    animation: blinker 0.2s linear 1
+}
+
 #lower-display {
     height: 30%;
     padding: 0 5px ;

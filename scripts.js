@@ -29,23 +29,10 @@ function operate(operator, n1, n2) {
     }
 };
 
-function ready_calculator() {
-    // Receive Input 
-    operator_chosen = divide
-    first_num = 0.2
-    second_num = 0.1
-
-    // Calculation Logic
-    final_val = operate(operator_chosen, first_num, second_num);
-    return final_val;
-};
-
 
 document.addEventListener('DOMContentLoaded', () => {
-    ready_calculator()
     createButtonGrids();
 });
-
 
 
 function createButtonGrids() {
@@ -160,11 +147,20 @@ function evaluate() {
         } else {
             reset_font_size()
         }
+        const display_text = document.querySelector("#display-text")
+        const upper_text = document.querySelector("#upper-text")
+
         update_upper_display(`${n1} ${operator} ${n2}`);
+        upper_text.classList.add("flash")
         n1 = result;
         update_main_display(result);
+        display_text.classList.add("flash")
         temp = n2;
         n2 = "";
+        setTimeout(function() {
+            display_text.classList.remove("flash")
+            upper_text.classList.remove("flash")
+        }, 500)
     }
 };
 
